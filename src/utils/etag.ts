@@ -28,7 +28,6 @@
  *
  */
 
-import { Sha1 } from "../../deps.ts";
 
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
@@ -40,7 +39,7 @@ const decoder = new TextDecoder();
  * @return {string}
  * @private
  */
-function entitytag(entity: any): string {
+async function entitytag(entity: any): Promise<string> {
   if (entity.length === 0) {
     // fast-path empty
     return '"0-2jmj7l5rSw0yVb/vlWAYkK/YBwk"';
@@ -51,10 +50,8 @@ function entitytag(entity: any): string {
   }
 
   // compute hash of entity
-  const sha1 = new Sha1();
-  sha1.update(entity);
-  sha1.digest();
-  const hash = sha1.toString().substring(0, 27);
+  const sha1 = await crypto.subtle.digest("sha1", entity);
+  const hash = decoder.decode(sha1).substring(0, 27);
 
   // compute length of entity
   const len = typeof entity === "string"
