@@ -389,6 +389,16 @@ export interface OpineRequest<
   acceptsLanguages(...lang: string[]): string | string[] | false;
 
   /**
+   * Takes the `Request` stream and reads it to completion.
+   *
+   * Returns a promise that resolves with a `FormData` object.
+   *
+   * @returns A `FormData` object.
+   */
+  formData(): Promise<FormData>;
+
+
+  /**
    * Return request header.
    *
    * The `Referrer` header field is special-cased,

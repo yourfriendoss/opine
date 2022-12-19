@@ -311,14 +311,14 @@ export function sendError(res: OpineResponse, error?: any): void {
  * Deno.Reader & Deno.Closer to read the file from the offset until the
  * provided contentLength;
  *
- * @param {Deno.File} file
+ * @param {Deno.FsFile} file
  * @param {number} offset
  * @param {number} contentLength
  * @returns {Deno.Reader & Deno.Closer} reader closer
  * @private
  */
 async function offsetFileReader(
-  file: Deno.File,
+  file: Deno.FsFile,
   offset: number,
   contentLength: number,
 ): Promise<Deno.Reader & Deno.Closer> {

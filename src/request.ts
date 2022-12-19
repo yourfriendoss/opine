@@ -305,6 +305,29 @@ export class WrappedRequest implements OpineRequest {
     this.#responsePromiseResolver(response);
     return socket;
   }
+  /**
+   * Takes the `Request` stream and reads it to completion.
+   *
+   * Returns a promise that resolves with a `FormData` object.
+   */
+  async formData(): Promise<FormData> {
+    if (this.parsedBody instanceof FormData) {
+      return this.parsedBody;
+    }
+
+    let formData: FormData;
+
+    try {
+      formData = await this.#request.formData();
+    } catch {
+      throw new TypeError("Body can not be decoded as form data");
+    }
+
+    this.body = formData;
+
+    return formData;
+  }
+
 
   get #body() {
     const streamReader = this.#request.body?.getReader();
